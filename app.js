@@ -3,14 +3,11 @@
  * Module dependencies.
  */
 
-var express = require('express')
-  , routes = require('./routes')
-
+var express = require('express'), routes = require('./routes');
 var app = module.exports = express.createServer();
-
 // Configuration
 
-app.configure(function(){
+App.configure(function(){
   app.set('views', __dirname + '/views');
   app.set('view engine', 'jade');
   app.use(express.bodyParser());
