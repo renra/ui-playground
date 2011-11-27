@@ -1,7 +1,17 @@
 //TODO : add compatibility for other browsers later
-window.requestAnimFrame = (function(){ return webkitRequestAnimationFrame})();
+window.requestAnimFrame = (function(){
+    return requestAnimationFrame ||
+	webkitRequestAnimationFrame ||
+	mozRequestAnimationFrame ||
+	oRequestAnimationFrame ||
+	msRequestAnimationFrame ||
+	function(callback, element){
+	    window.setTimeout(callback, 1000 / 60)
+	}
+	
+})();
 
-//TODO : Create instances so that the behaviour is separated and can be used for different objects in the site
+//TODO : Create instances so that the behaviour is separated and can be used for different objects on the site
 Animator = {
     animate : function(){
 	console.log('Animating');
