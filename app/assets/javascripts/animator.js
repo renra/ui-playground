@@ -1,17 +1,22 @@
+//TODO : add compatibility for other browsers later
+window.requestAnimFrame = (function(){ return webkitRequestAnimationFrame})();
+
 //TODO : Create instances so that the behaviour is separated and can be used for different objects in the site
 Animator = {
     animate : function(){
+	console.log('Animating');
 	var subject = $('.dancer');
 	for(var i = 0; i < subject.length; i++){
 	    var width = parseInt(subject[i].style.width) || 0;
 	    var height = parseInt(subject[i].style.height) || 0;
-	    var max_x = (width == 0) ? 100 : (Math.floor(100-100*width/window.innerWidth));
-	    var max_y = (height == 0) ? 100 : (Math.floor(100-100*height/window.innerHeight));
+	    var max_x = (width == 0) ? window.innerWidth : (Math.floor(window.innerWidth - width));
+	    var max_y = (height == 0) ? window.innerHeight : (Math.floor(window.innerHeight - height));
 	    
-	    subject[i].style.left = Math.random()*max_x + '%';
-	    subject[i].style.top = Math.random()*max_y + '%';
+	    subject[i].style.left = Math.random()*max_x + 'px';
+	    subject[i].style.top = Math.random()*max_y + 'px';
+	    //This works too fast and does not really animate. I guess it works just with pixels
+	    //requestAnimFrame(Animator.animate, subject[i]);
 	}
-	//requestAnimFrame(animate, subject);
     },
 
     animation_loop : function(){
