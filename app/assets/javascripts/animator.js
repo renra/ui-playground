@@ -15,13 +15,11 @@ Animator = {
     init : function(){
 	var trigger = $('#basic-trigger');
 	var subject = $('.dancer');
-	this.origin_x = subject.position().left;
-	this.origin_y = subject.position().top;
+	this.x = subject.position().left;
+	this.y = subject.position().top;
 	this.subject = subject[0];
 	
 	this.check_drawing_area();
-	this.x = 0;
-	this.y = 0;
 	this.new_destination();
 	trigger.unbind('click');
 	trigger.click(function(){Animator.kill_animation()});
