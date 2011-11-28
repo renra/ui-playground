@@ -15,17 +15,14 @@ Animator = {
     master_speed : 0.1,
     max_x : 0,
     max_y : 0,
-    //put all the dancers here
     dancers : [],
     
     init : function(){
-	//Finds four divs?? Confusing
 	var dancers = $(this).parent().parent().find('.dancer');
 	var jquery_wrapper = null;
 	var index = null;
-	console.log(dancers);
-	for(var i in dancers){
-	    console.log(dancers[i]);
+	Animator.master_kill = false;
+	for(var i = 0; i < dancers.length; i++){
 	    jquery_wrapper = $(dancers[i]);
 	    index = Animator.dancers.length;
 	    Animator.dancers[index] = {
@@ -40,18 +37,25 @@ Animator = {
 	    Animator.set_destination_for(index);
 	}
 
-	console.log('After the loop');
-	var trigger = $('#basic-trigger');
-	trigger.unbind('click');
-	trigger.click(Animator.kill_animation);
-	trigger.text('Click me to stop animating');
+	$(this).unbind('click');
+	$(this).click(Animator.kill_animation);
+	$(this).text('Click me to stop animating');
 
-	console.log('About to animate');
+	Animator.animate();
+    },
+
+    continue : function(){
+	$(this).unbind('click');
+	$(this).click(Animator.kill_animation);
+	$(this).text('Click me to stop animating');
+	
+	Animator.master_kill = false;
 	Animator.animate();
     },
     
     animate : function(){
 	if(Animator.master_kill){
+	    console.log('Killing');
 	    return;
 	}
 
@@ -78,13 +82,12 @@ Animator = {
 		flag++;
 	    }
 
-	    console.log('Here');
 	    if(flag >= 2){
 		Animator.set_destination_for(i);
 	    }
 	}
 	
-//	requestAnimFrame(Animator.animate, Animator.dancers);
+	requestAnimFrame(Animator.animate, Animator.dancers);
     },
 
     delimit_dancing_area_for : function(index){
@@ -102,10 +105,9 @@ Animator = {
     },
 
     kill_animation : function(){
-	var trigger = $('button.trigger#basic-trigger');
-	trigger.unbind('click');
-	trigger.click(Animator.init);
-	trigger.text('Click me to start animating');
+	$(this).unbind('click');
+	$(this).click(Animator.continue);
+	$(this).text('Click me to continue animating');
 	Animator.master_kill = true;
     }
 }
